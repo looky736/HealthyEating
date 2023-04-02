@@ -1,26 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 
 const WaterScreen = () => {
   const [cups, setCups] = useState([false, false, false, false, false, false]) // initial state of all cups is "empty"
+  const [plantImage, setPlantImage] = useState(require('../Plant1.png')) // initial state of plant image is Plant1.png
+
+  useEffect(() => {
+    const countSelectedCups = cups.filter((cup) => cup).length // count how many cups are currently selected
+    if (countSelectedCups >= 1 && countSelectedCups <= 2) {
+      setPlantImage(require('../Plant1.png'))
+    } else if (countSelectedCups >= 3 && countSelectedCups <= 4) {
+      setPlantImage(require('../Plant2.png'))
+    } else if (countSelectedCups >= 5 && countSelectedCups <= 6) {
+      setPlantImage(require('../Plant3.png'))
+    }
+  }, [cups])
 
   const handleCupPress = (index) => {
-    if (cups[index] === true) {
-      return // do nothing if cup is already filled
+    if (cups[index] === false) {
+      // if the cup is not filled, fill it
+      if (index === 0 || cups[index - 1] === true) {
+        const newCups = [...cups]
+        newCups[index] = true
+        setCups(newCups)
+      }
+    } else {
+      // if the cup is filled, empty it (only want it from right to left)
+      let canEmpty = true
+      for (let i = index + 1; i < cups.length; i++) {
+        if (cups[i] === true) {
+          canEmpty = false
+          break
+        }
+      }
+      if (canEmpty) {
+        const newCups = [...cups]
+        newCups[index] = false
+        setCups(newCups)
+      }
     }
-
-    if (index !== 0 && cups[index - 1] === false) {
-      return // do nothing if the previous cup is not filled
-    }
-
-    // create a new array with the cup at `index` set to true and all other cups left unchanged
-    const newCups = [...cups]
-    newCups[index] = true
-    setCups(newCups)
   }
 
   return (
     <View style={styles.container}>
+      <Image source={plantImage} style={styles.image} />
       <View style={styles.cupContainer}>
         {cups.map((cup, index) => (
           <TouchableOpacity key={index} onPress={() => handleCupPress(index)}>
@@ -40,6 +63,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 50,
+    backgroundColor: '#246EE9',
+  },
+  image: {
+    width: 200,
+    height: 200,
   },
   cupContainer: {
     position: 'absolute',
