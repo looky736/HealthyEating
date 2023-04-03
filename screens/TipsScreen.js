@@ -1,13 +1,15 @@
 import { useNavigation } from '@react-navigation/core'
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
 
 const TipsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text>THIS IS THE TIPS AND TRICKS SCREEN</Text>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
+        <View style={styles.content}>
+        </View>
+      </ScrollView>
     </View>
   )
 }
@@ -20,17 +22,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-   button: {
-    backgroundColor: '#0782F9',
-    width: '60%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 40,
+  scrollView: {
+    width: '100%',
   },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    width: '80%',
+    paddingVertical: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  text: {
     fontSize: 16,
+    marginBottom: 10,
   },
 })
