@@ -73,11 +73,11 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   UserImage: {
-    width: 100,
-    height: 60,
+    width: 120,
+    height: 70,
     resizeMode: 'contain',
     position: 'absolute',
-    top: 25,
-    right: -10,
+    top: 27,
+    right: -8,
   },
 });

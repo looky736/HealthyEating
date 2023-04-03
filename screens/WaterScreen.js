@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 50,
+    backgroundColor: '#246EE9',
   },
   imageContainer: {
     width: 350, 
