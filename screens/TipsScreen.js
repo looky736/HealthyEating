@@ -78,7 +78,7 @@ export default TipsScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#246EE9',
+    backgroundColor: '#66D6F7',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#edb14f',
+    backgroundColor: '#F78766',
     height: 50,
     width: '100%',
   },

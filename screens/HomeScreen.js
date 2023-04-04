@@ -37,12 +37,12 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#246EE9',
+    backgroundColor: '#66D6F7',
     alignItems: 'center',
     justifyContent: 'center',
   },
   button: {
-    backgroundColor: '#edb14f',
+    backgroundColor: '#F78766',
     padding: 10,
     width: 200,
     alignItems: 'center',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     height: 70,
     resizeMode: 'contain',
     position: 'absolute',
-    top: 27,
+    top: 20,
     right: -8,
   },
 });
