@@ -11,6 +11,7 @@ import WaterScreen from './screens/WaterScreen';
 import TipsScreen from './screens/TipsScreen';
 import BmiScreen from './screens/BmiScreen';
 import MealScreen from './screens/MealScreen';
+import MealScreen1 from './screens/MealScreen1';
 
 
 const Stack = createNativeStackNavigator();
@@ -28,6 +29,7 @@ function App() {
         <Stack.Screen options={{ headerShown: true }} name="Tips" component={TipsScreen} />
         <Stack.Screen options={{ headerShown: true }} name="Meal" component={MealScreen} />
         <Stack.Screen options={{ headerShown: true }} name="BMI" component={BmiScreen} />
+        <Stack.Screen options={{ headerShown: true }} name="Meal Viewer" component={MealScreen1} />
       </Stack.Navigator>
     </NavigationContainer>
   );

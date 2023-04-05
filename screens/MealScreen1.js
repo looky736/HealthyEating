@@ -1,0 +1,90 @@
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+
+const API_KEY = '1b14491645d040e9bcf3a88bc2ee8fe5';
+
+export default function MealViewer({ route }) {
+  const { id } = route.params;
+  const [mealDetails, setMealDetails] = useState(null);
+
+  useEffect(() => {
+    fetch(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${API_KEY}`)
+      .then(response => response.json())
+      .then(data => setMealDetails(data))
+      .catch(error => console.log(error));
+  }, [id]);
+
+  if (!mealDetails) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading meal details...</Text>
+      </View>
+    );
+  }
+
+  const { title, image, extendedIngredients, analyzedInstructions, nutrition } = mealDetails;
+
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        <Image source={{ uri: image }} style={styles.mealImage} />
+        <Text style={styles.mealTitle}>{title}</Text>
+        <Text style={styles.subtitle}>Ingredients:</Text>
+        {extendedIngredients.map(ingredient => (
+          <Text key={ingredient.id}>{ingredient.original}</Text>
+        ))}
+        <Text style={styles.subtitle}>Instructions:</Text>
+        {analyzedInstructions.map(instruction => (
+          <View key={instruction.name}>
+            <Text style={styles.stepTitle}>{instruction.name}</Text>
+            {instruction.steps.map(step => (
+              <Text key={step.number}>{step.step}</Text>
+            ))}
+          </View>
+        ))}
+        <Text style={styles.subtitle}>Nutrition:</Text>
+        <Text>{`Calories: ${nutrition.nutrients.find(n => n.name === 'Calories').amount} kcal`}</Text>
+        <Text>{`Fat: ${nutrition.nutrients.find(n => n.name === 'Fat').amount} g`}</Text>
+        <Text>{`Carbs: ${nutrition.nutrients.find(n => n.name === 'Carbohydrates').amount} g`}</Text>
+        <Text>{`Protein: ${nutrition.nutrients.find(n => n.name === 'Protein').amount} g`}</Text>
+      </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#66D6F7',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  mealImage: {
+    width: '100%',
+    height: 200,
+    marginBottom: 10,
+  },
+  mealTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  stepTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 5,
+    textDecorationLine: 'underline',
+  },
+});
