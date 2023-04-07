@@ -5,6 +5,7 @@ const WaterScreen = () => {
   const [cups, setCups] = useState(Array(6).fill(false)); // initial state of all cups to be empty
   const [plantImage, setPlantImage] = useState(require('../Plant1.png')); // initial state of plant image is Plant1 image the saddest plant
   const [plantContainerStyle, setPlantContainerStyle] = useState(styles.plantContainer1);
+  const [waterConsumed, setWaterConsumed] = useState(0);
 
   useEffect(() => {
     const countSelectedCups = cups.filter(Boolean).length; // count how many cups are currently selected by the user
@@ -18,6 +19,7 @@ const WaterScreen = () => {
       setPlantImage(require('../Plant3.png')); //If first 5 or 6 cups selected show Plant3
       setPlantContainerStyle(styles.plantContainer3);
     }
+    setWaterConsumed(countSelectedCups * 500);
   }, [cups]);
 
   const handleCupPress = (index) => {
@@ -48,59 +50,75 @@ const WaterScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
+      <View style={styles.waterConsumedContainer}>
+        <Text style={styles.waterConsumedText}>Water consumed:</Text>
+        <Text style={styles.waterConsumedNumber}>{waterConsumed} ml</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 50,
-    backgroundColor: '#66D6F7',
-  },
-  imageContainer: {
-    width: 350, 
-    height: 350, 
-    overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-  },
-  plantContainer1: {
-    width: 320, 
-    height: 320, 
-    overflow: 'hidden',
-    top: 90,
-  },
-  plantContainer2: {
-    width: 420, 
-    height: 420, 
-    overflow: 'hidden',
-    top:-10,
-    right: -12,
-  },
-  plantContainer3: {
-    width: 470, 
-    height: 480, 
-    overflow: 'hidden',
-    top: -24,
-  },
-  cupContainer: {
-    position: 'absolute',
-    bottom: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-end',
-    width: '100%',
-  },
-  cupImage: {
-    width: 50,
-    height: 50,
-  },
-});
-
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingBottom: 50,
+      backgroundColor: '#66D6F7',
+    },
+    imageContainer: {
+      width: 350, 
+      height: 350, 
+      overflow: 'hidden',
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+      alignItems: 'center',
+    },
+    plantContainer1: {
+      width: 320, 
+      height: 320, 
+      overflow: 'hidden',
+      top: 90,
+    },
+    plantContainer2: {
+      width: 420, 
+      height: 420, 
+      overflow: 'hidden',
+      top: -10,
+      right: -12,
+    },
+    plantContainer3: {
+      width: 470, 
+      height: 480, 
+      overflow: 'hidden',
+      top: -24,
+    },
+    cupContainer: {
+      position: 'absolute',
+      bottom: 50,
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      alignItems: 'flex-end',
+      width: '100%',
+    },
+    cupImage: {
+      width: 50,
+      height: 50,
+    },
+    waterConsumedContainer: {
+      position: 'absolute',
+      bottom: 10,
+      alignItems: 'center',
+    },
+    waterConsumedText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: 'black',
+      textAlign: 'center',
+    },
+  });
+  
+  
 export default WaterScreen;

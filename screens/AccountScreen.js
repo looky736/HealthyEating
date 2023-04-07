@@ -34,10 +34,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#66D6F7',
   },
    button: {
-    backgroundColor: '#0782F9',
+    backgroundColor: '#F78766',
     width: '60%',
     padding: 15,
     borderRadius: 10,

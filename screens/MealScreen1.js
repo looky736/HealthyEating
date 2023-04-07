@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 
-const API_KEY = '1b14491645d040e9bcf3a88bc2ee8fe5';
+const API_KEY = 'd1be1f1a5bfd4860b4872daded3101b5';
 
 export default function MealViewer({ route }) {
   const { id } = route.params;
