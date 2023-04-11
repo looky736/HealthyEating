@@ -104,13 +104,14 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   button: {
-    backgroundColor: '#edb14f',
+    backgroundColor: '#F78766',
     borderColor: 'black', 
     borderWidth: 2,
     width: '100%',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
+    fontWeight: 'bold',
   },
   buttonOutline: {
     backgroundColor: 'white',
@@ -122,9 +123,10 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   buttonOutlineText: {
-    color: '#0782F9',
+    color: 'black',
     fontWeight: '700',
     fontSize: 16,
   },

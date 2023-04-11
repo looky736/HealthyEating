@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const WaterScreen = () => {
   const [cups, setCups] = useState(Array(6).fill(false)); // initial state of all cups to be empty
   const [plantImage, setPlantImage] = useState(require('../Plant1.png')); // initial state of plant image is Plant1 image the saddest plant
   const [plantContainerStyle, setPlantContainerStyle] = useState(styles.plantContainer1);
   const [waterConsumed, setWaterConsumed] = useState(0);
+  const [confetti, setConfetti] = useState(false);
 
   useEffect(() => {
     const countSelectedCups = cups.filter(Boolean).length; // count how many cups are currently selected by the user
@@ -19,17 +21,24 @@ const WaterScreen = () => {
       setPlantImage(require('../Plant3.png')); //If first 5 or 6 cups selected show Plant3
       setPlantContainerStyle(styles.plantContainer3);
     }
+
+    if (countSelectedCups === 6) {
+      setConfetti(true);
+    } else {
+      setConfetti(false);
+    }
+
     setWaterConsumed(countSelectedCups * 500);
   }, [cups]);
 
   const handleCupPress = (index) => {
-    if (!cups[index]) { // if the cup is not filled, fill it
+    if (!cups[index]) {
       if (index === 0 || cups[index - 1]) {
         const newCups = [...cups];
         newCups[index] = true;
         setCups(newCups);
       }
-    } else { // if the cup is filled, empty it (only want it from right to left)
+    } else {
       if (cups.slice(index + 1).every((cup) => !cup)) {
         const newCups = [...cups];
         newCups[index] = false;
@@ -40,6 +49,14 @@ const WaterScreen = () => {
 
   return (
     <View style={styles.container}>
+      {confetti && (
+        <ConfettiCannon
+          count={200}
+          origin={{ x: -10, y: 0 }}
+          explosionSpeed={3500}
+          fallSpeed={5000}
+        />
+      )}
       <View style={[styles.imageContainer, plantContainerStyle]}>
         <Image source={plantImage} style={styles.image} resizeMode="contain" />
       </View>
@@ -56,7 +73,7 @@ const WaterScreen = () => {
       </View>
     </View>
   );
-};
+        };
 
 const styles = StyleSheet.create({
     container: {
@@ -80,13 +97,13 @@ const styles = StyleSheet.create({
       width: 320, 
       height: 320, 
       overflow: 'hidden',
-      top: 90,
+      top: -90,
     },
     plantContainer2: {
       width: 420, 
       height: 420, 
       overflow: 'hidden',
-      top: -10,
+      top: -90,
       right: -12,
     },
     plantContainer3: {
