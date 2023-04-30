@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const API_KEY = 'd1be1f1a5bfd4860b4872daded3101b5';
+const API_KEY = '1b14491645d040e9bcf3a88bc2ee8fe5';
 
 const filterToMealIds = {
   'Random': [124, 646651,123, 652417, 632812, 101],
@@ -51,26 +51,36 @@ export default function MealScreen() {
         <View style={styles.scrollContainer}>
           {meals.map((meal, index) => (
             <TouchableOpacity key={index} onPress={() => handleMealClick(meal.id)}>
-              <Image source={{ uri: meal.image }} style={styles.mealImage} />
+              <View style={styles.mealContainer}>
+                <Image source={{ uri: meal.image }} style={styles.mealImage} />
+                <Text style={styles.mealTitle}>{meal.title}</Text>
+              </View>
             </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
     </View>
-  );
+  );  
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#66D6F7',
+    backgroundColor: '#D4FAFA',
     paddingVertical: 20,
     paddingHorizontal: 10,
   },
-  mealImage: {
+  mealContainer: {
     width: 260,
-    height: 180,
+    height: 240,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginVertical: 10,
+  },
+  mealImage: {
+    width: 250,
+    height: 180,
+    right: 0,
   },
   filter: {
     alignSelf: 'center',
@@ -84,6 +94,7 @@ const styles = StyleSheet.create({
   filterText: {
     fontWeight: 'bold',
     color: '#000000',
+    justifyContent: 'center',
   },
   scrollContainer: {
     flexGrow: 1,
@@ -93,5 +104,13 @@ const styles = StyleSheet.create({
   scrollContent: {
     alignItems: 'center',
   },
+  mealTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginVertical: -10,
+    textAlign: 'center',
+  },
 });
+
+
 

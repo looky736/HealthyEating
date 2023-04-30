@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 
-const API_KEY = 'd1be1f1a5bfd4860b4872daded3101b5';
+const API_KEY = '1b14491645d040e9bcf3a88bc2ee8fe5';
 
 export default function MealViewer({ route }) {
   const { id } = route.params;
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#66D6F7',
+    backgroundColor: '#D4FAFA',
   },
   loadingContainer: {
     flex: 1,

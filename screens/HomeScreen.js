@@ -8,6 +8,7 @@ export default function HomeScreen() {
   
   return (
     <View style={styles.container}>
+      <Image source={require('../Logo.png')} style={styles.logo}/>
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Account')}>
         <Image source={require('../UserAvatar.png')} style={styles.UserImage}/>
       </TouchableWithoutFeedback>
@@ -37,9 +38,17 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#66D6F7',
+    backgroundColor: '#D4FAFA',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  logo: {
+    width: 250,
+    height: 150,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginBottom: 5,
   },
   button: {
     backgroundColor: '#F78766',

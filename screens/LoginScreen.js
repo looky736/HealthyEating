@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { auth } from '../firebase' 
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
+import { auth } from '../firebase'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -44,6 +44,10 @@ const LoginScreen = () => {
       style={styles.container}
       behavior="height"
     >
+      <View style={styles.logoContainer}>
+        <Image source={require('../Logo.png')} style={styles.logo} />
+      </View>
+
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -83,12 +87,23 @@ export default LoginScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#D4FAFA',
+  },
+  logoContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#66D6F7',
+  },
+  logo: {
+    width: 250,
+    height: 150,
+    resizeMode: 'contain',
+    top: 20,
   },
   inputContainer: {
-    width: '80%'
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     backgroundColor: 'white',
@@ -96,18 +111,20 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
+    width: '80%',
   },
   buttonContainer: {
-    width: '60%',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 40,
+    top: -120,
   },
   button: {
     backgroundColor: '#F78766',
     borderColor: 'black', 
     borderWidth: 2,
-    width: '100%',
+    width: '60%',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',

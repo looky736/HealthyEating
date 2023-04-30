@@ -11,25 +11,32 @@ const WaterScreen = () => {
 
   useEffect(() => {
     const countSelectedCups = cups.filter(Boolean).length; // count how many cups are currently selected by the user
+    let plantImageSource = require('../Plant1.png');
+    let plantContainerStyle = styles.plantContainer1;
+    
     if (countSelectedCups >= 1 && countSelectedCups <= 2) {
-      setPlantImage(require('../Plant1.png')); //If first two cups selected show Plant1
-      setPlantContainerStyle(styles.plantContainer1);
+      plantImageSource = require('../Plant1.png'); //If first two cups selected show Plant1
+      plantContainerStyle = styles.plantContainer1;
     } else if (countSelectedCups >= 3 && countSelectedCups <= 4) {
-      setPlantImage(require('../Plant2.png')); //If first three and four also selected show Plant2
-      setPlantContainerStyle(styles.plantContainer2);
+      plantImageSource = require('../Plant2.png'); //If first three and four also selected show Plant2
+      plantContainerStyle = styles.plantContainer2;
     } else if (countSelectedCups >= 5 && countSelectedCups <= 6) {
-      setPlantImage(require('../Plant3.png')); //If first 5 or 6 cups selected show Plant3
-      setPlantContainerStyle(styles.plantContainer3);
+      plantImageSource = require('../Plant3.png'); //If first 5 or 6 cups selected show Plant3
+      plantContainerStyle = styles.plantContainer3;
     }
-
+    
+    setPlantImage(plantImageSource);
+    setPlantContainerStyle(plantContainerStyle);
+  
     if (countSelectedCups === 6) {
       setConfetti(true);
     } else {
       setConfetti(false);
     }
-
+  
     setWaterConsumed(countSelectedCups * 500);
   }, [cups]);
+  
 
   const handleCupPress = (index) => {
     if (!cups[index]) {
@@ -71,6 +78,12 @@ const WaterScreen = () => {
         <Text style={styles.waterConsumedText}>Water consumed:</Text>
         <Text style={styles.waterConsumedNumber}>{waterConsumed} ml</Text>
       </View>
+      {confetti && (
+        <View style={styles.congratulationsContainer}>
+          <Text style={styles.congratulationsText}>Congratulations!</Text>
+          <Text style={styles.congratulationsSubtext}>You've reached your daily intake</Text>
+        </View>
+      )}
     </View>
   );
         };
@@ -81,7 +94,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       paddingBottom: 50,
-      backgroundColor: '#66D6F7',
+      backgroundColor: '#D4FAFA',
     },
     imageContainer: {
       width: 350, 
@@ -97,20 +110,20 @@ const styles = StyleSheet.create({
       width: 320, 
       height: 320, 
       overflow: 'hidden',
-      top: -90,
+      top: 140,
     },
     plantContainer2: {
       width: 420, 
       height: 420, 
       overflow: 'hidden',
-      top: -90,
-      right: -12,
+      bottom: -40,
+      right: -11,
     },
     plantContainer3: {
       width: 470, 
       height: 480, 
       overflow: 'hidden',
-      top: -24,
+      bottom: -24,
     },
     cupContainer: {
       position: 'absolute',
@@ -135,6 +148,24 @@ const styles = StyleSheet.create({
       color: 'black',
       textAlign: 'center',
     },
+    congratulationsContainer: {
+        position: 'absolute',
+        top: 30,
+        alignItems: 'center',
+      },
+      congratulationsText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: 'center',
+        marginBottom: 10,
+      },
+      congratulationsSubtext: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: 'center',
+      },    
   });
   
   
