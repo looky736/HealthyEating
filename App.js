@@ -16,7 +16,8 @@ import MealScreen1 from './screens/MealScreen1';
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+
+export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -33,6 +34,4 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
-
-export default App;
+};

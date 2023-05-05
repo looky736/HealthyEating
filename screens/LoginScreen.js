@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
-import { auth } from '../firebase'
+import { auth, database, getDate } from '../firebase'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -25,6 +25,12 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
+        database.ref('users/' + user.uid).set({
+          [getDate()]: {
+            water: 0,
+            calories: 0,
+          }
+        });
       })
       .catch(error => alert(error.message))
   }
@@ -36,49 +42,52 @@ const LoginScreen = () => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
       })
-      .catch(error => alert(error.message))
+      .catch(error => alert(error.message));
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="height"
-    >
+    <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image source={require('../Logo.png')} style={styles.logo} />
       </View>
+      
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior="contain"
+      >
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={text => setEmail(text)}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={text => setPassword(text)}
+            style={styles.input}
+            secureTextEntry
+          />
+          
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={handleLogin}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleSignUp}
+              style={[styles.button, styles.buttonOutline]}
+            >
+              <Text style={styles.buttonOutlineText}>Register</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={text => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleLogin}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   )
 }
 
@@ -93,17 +102,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 40,
   },
   logo: {
     width: 250,
     height: 150,
     resizeMode: 'contain',
-    top: 20,
+    top: -60,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   inputContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    top: -80,
   },
   input: {
     backgroundColor: 'white',
@@ -112,19 +126,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 5,
     width: '80%',
+    paddingBottom: 0,
   },
   buttonContainer: {
-    flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
-    top: -120,
+    marginTop: 20,
   },
   button: {
-    backgroundColor: '#F78766',
+    backgroundColor: '#F18A8A',
     borderColor: 'black', 
     borderWidth: 2,
-    width: '60%',
+    width: 200,
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
@@ -135,6 +149,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderColor: 'black',
     borderWidth: 2,
+    width: 200, 
   },
   buttonText: {
     color: 'black',

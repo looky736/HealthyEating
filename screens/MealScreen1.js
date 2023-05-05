@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 
-const API_KEY = '1b14491645d040e9bcf3a88bc2ee8fe5';
+const API_KEY = 'd1be1f1a5bfd4860b4872daded3101b5';
 
 export default function MealViewer({ route }) {
   const { id } = route.params;
@@ -37,9 +37,13 @@ export default function MealViewer({ route }) {
         {analyzedInstructions.map(instruction => (
           <View key={instruction.name}>
             <Text style={styles.stepTitle}>{instruction.name}</Text>
-            {instruction.steps.map(step => (
-              <Text key={step.number}>{step.step}</Text>
-            ))}
+            <View style={styles.stepsContainer}>
+              {instruction.steps.map(step => (
+                <View style={styles.stepContainer} key={step.number}>
+                  <Text style={styles.stepText}>{step.step}</Text>
+                </View>
+              ))}
+            </View>
           </View>
         ))}
         <Text style={styles.subtitle}>Nutrition:</Text>
@@ -86,5 +90,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     textDecorationLine: 'underline',
+  },
+  stepsContainer: {
+    paddingLeft: 20,
+    marginTop: -30,
+    left: -14,
   },
 });

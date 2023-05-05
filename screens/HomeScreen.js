@@ -51,14 +51,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: '#F78766',
+    backgroundColor: '#F18A8A',
     padding: 10,
     width: 200,
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 12,
-  },
+    borderWidth: 1.5,
+    borderColor: '#000000',
+  },  
   buttonText: {
     color: 'black',
     fontSize: 18,
