@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import {database, auth, getDate} from '../firebase';
 
@@ -48,6 +48,13 @@ const CalorieCounter = () => {
     setDailyGoal('');
   };
 
+  const resetCalorie = () => {
+    setCalories(0);
+    database.ref('users/' + auth.currentUser.uid + '/' + getDate()).update({
+      calories: 0,
+    });
+  };
+
   const handleChangeInputCalories = (value) => {
     setInputCalories(value)
     const newCalories = parseInt(value)
@@ -82,7 +89,7 @@ const CalorieCounter = () => {
           value={goal}
           onChangeText={handleChangeGoal}
           minLength={4}
-          maxLength={4} // add maxLength prop to limit input to 4 characters
+          maxLength={4} 
         />
         <TouchableOpacity style={buttonEnabled ? styles.button : styles.disabledButton} disabled={buttonEnabled ? false : true} onPress={handleSetGoal}>
           <Text style={styles.buttonText}>{buttonEnabled ? 'Set Goal' : 'Invalid Value'}</Text>
@@ -107,19 +114,20 @@ const CalorieCounter = () => {
       <View style={styles.progressBar}>
         <View style={[styles.progress, { width: `${progress}%` }]} />
         <Image
-          source={require('../running-man.gif')}
+          source={require('../Jetski.gif')}
           resizeMode="contain"
-          style={[styles.character, { left: `${progress}%` }]}
+          style={[styles.jetski, { left: `${progress - 4}%` }]}
         />
+
         <Image
           source={require('../Finish.png')}
           resizeMode="contain"
-          style={[styles.character, { right: -19, height:50, width: 30, top:-35, }]}
+          style={[styles.finish, { right: -19, height:50, width: 30, top:-45, }]}
         />
       </View> 
 
       <View style={styles.dailyLimitContainer}>
-            <Text style={styles.help}>You have consumed {calories} calories so far</Text>
+            <Text style={styles.help}>You have consumed {calories ?? '0'} calories so far.</Text>
       </View>
 
       <TextInput 
@@ -130,7 +138,10 @@ const CalorieCounter = () => {
         onChangeText={handleChangeInputCalories}
       />
       <TouchableOpacity style={buttonEnabled ? styles.button : styles.disabledButton} disabled={buttonEnabled ? false : true} onPress={handleAddCalories}>
-        <Text style={styles.buttonText}>Add Calories</Text>
+        <Text style={styles.buttonText}>{buttonEnabled ? 'Add Calories' : 'Invalid Value'}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={resetCalorie}>
+        <Text style={styles.buttonText}>Reset Calories</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={changeGoal}>
         <Text style={styles.buttonText}>Reset Goal</Text>
@@ -167,19 +178,28 @@ const styles = StyleSheet.create({
     borderColor: '#A9A9A9',
     borderWidth: 1,
     marginTop: 20,
+    marginBottom: 10,
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: '#F78766',
+    backgroundColor: '#F18A8A',
     borderRadius: 10,
     padding: 10,
-    marginTop: 20,
+    margin: 10,
+    width: 169,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: '#000000',
   },
   disabledButton: {
-    backgroundColor: 'grey',
+    backgroundColor: '#BDBDBD',
     borderRadius: 10,
     padding: 10,
-    marginTop: 20,
+    margin: 10,
+    width: 169,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: '#000000',
   },
   buttonText: {
     color: 'black',
@@ -209,20 +229,29 @@ const styles = StyleSheet.create({
   },
   progress: {
     height: 20,
-    backgroundColor: '#0782F9',
+    backgroundColor: '#4FC3F7',
     borderRadius: 10,
     position: 'absolute',
     top: 0,
     left: 0,
   },
-  character: {
+  finish: {
     position: 'absolute',
-    top: -10,
+    top: -23,
     height: 30,
     width: 30,
     backgroundColor: 'transparent',
     borderRadius: 100,
     transform: [{ scaleX: -1 }],
+  },
+  jetski: {
+    position: 'absolute',
+    top: -23,
+    height: 30,
+    width: 30,
+    backgroundColor: 'transparent',
+    borderRadius: 100,
+    left: -180,
   },
 });
 

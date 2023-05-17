@@ -1,9 +1,5 @@
-import { useNavigation } from '@react-navigation/core'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
-import {database, auth, getDate} from '../firebase';
-
-
 
 const BmiScreen = () => {
   const [weight, setWeight] = useState('');
@@ -24,7 +20,7 @@ const BmiScreen = () => {
     if (bmi < 18.5) {
       return 'underweight';
     } else if (bmi >= 18.5 && bmi < 25) {
-      return 'normal weight';
+      return 'a normal weight';
     } else if (bmi >= 25 && bmi < 30) {
       return 'overweight'
     } else {
@@ -40,7 +36,7 @@ const BmiScreen = () => {
         </View>
 
         <View >
-          <Text style={styles.calories}>{bmi.toString()}</Text>
+          <Text style={styles.bmi}>{bmi.toString()}</Text>
         </View>
         
         <View style={styles.dailyLimitContainer}>
@@ -88,15 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#D4FAFA',
   },
-  circle: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  calories: {
+  bmi: {
     fontSize: 50,
     fontWeight: 'bold',
     color: '#0782F9',
@@ -117,12 +105,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 20,
   },
-  disabledButton: {
-    backgroundColor: 'grey',
-    borderRadius: 10,
-    padding: 10,
-    marginTop: 20,
-  },
   buttonText: {
     color: 'black',
     fontSize: 18,
@@ -134,36 +116,5 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-  help: {
-    color: 'black',
-    fontSize: 15,
-    fontWeight: 'normal',
-    textAlign: 'center',
-  },
-  progressBar: {
-    height: 20,
-    width: '60%',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    marginTop: 20,
-    position: 'relative',
-  },
-  progress: {
-    height: 20,
-    backgroundColor: '#0782F9',
-    borderRadius: 10,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-  },
-  character: {
-    position: 'absolute',
-    top: -10,
-    height: 30,
-    width: 30,
-    backgroundColor: 'transparent',
-    borderRadius: 100,
-    transform: [{ scaleX: -1 }],
   },
 });

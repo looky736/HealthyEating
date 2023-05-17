@@ -3,86 +3,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import {database, auth, getDate} from '../firebase';
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingBottom: 50,
-      backgroundColor: '#D4FAFA',
-    },
-    imageContainer: {
-      width: 350, 
-      height: 350, 
-      overflow: 'hidden',
-    },
-    image: {
-      width: '100%',
-      height: '100%',
-      alignItems: 'center',
-    },
-    plantContainer1: {
-      width: 320, 
-      height: 320, 
-      overflow: 'hidden',
-      top: 140,
-    },
-    plantContainer2: {
-      width: 420, 
-      height: 420, 
-      overflow: 'hidden',
-      bottom: -40,
-      right: -11,
-    },
-    plantContainer3: {
-      width: 470, 
-      height: 480, 
-      overflow: 'hidden',
-      bottom: -24,
-    },
-    cupContainer: {
-      position: 'absolute',
-      bottom: 50,
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      alignItems: 'flex-end',
-      width: '100%',
-    },
-    cupImage: {
-      width: 50,
-      height: 50,
-    },
-    waterConsumedContainer: {
-      position: 'absolute',
-      bottom: 10,
-      alignItems: 'center',
-    },
-    waterConsumedText: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: 'black',
-      textAlign: 'center',
-    },
-    congratulationsContainer: {
-        position: 'absolute',
-        top: 30,
-        alignItems: 'center',
-      },
-      congratulationsText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'black',
-        textAlign: 'center',
-        marginBottom: 10,
-      },
-      congratulationsSubtext: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'black',
-        textAlign: 'center',
-      },    
-});
-
 export default function WaterScreen(){
   const [cups, setCups] = useState(Array(6).fill(false)); // initial state of all cups to be empty
   const [plantImage, setPlantImage] = useState(require('../Plant1.png')); // initial state of plant image is Plant1 image the saddest plant
@@ -121,11 +41,14 @@ export default function WaterScreen(){
 
   //get water consumed only when screen loads
   database.ref('users/' + auth.currentUser.uid + '/' + getDate()).once('value', (snapshot) => {
+    let cupsConsumed = 0
     if (snapshot.val()) {
-      const cupsConsumed = Math.floor(snapshot.val().water / 500);
-      cups.splice(0, cupsConsumed, ...Array(cupsConsumed).fill(true));
-      getWater()
+      if (snapshot.val().water) {
+        cupsConsumed = Math.floor(snapshot.val().water / 500);
+      }
     }
+    cups.splice(0, cupsConsumed, ...Array(cupsConsumed).fill(true));
+    getWater()
   });
 
   useEffect(() => {
@@ -180,7 +103,7 @@ export default function WaterScreen(){
       </View>
       <View style={styles.waterConsumedContainer}>
         <Text style={styles.waterConsumedText}>Water consumed:</Text>
-        <Text style={styles.waterConsumedNumber}>{waterConsumed} ml</Text>
+        <Text style={styles.waterConsumedNumber}>{waterConsumed ?? '0'} ml</Text>
       </View>
       {confetti && (
         <View style={styles.congratulationsContainer}>
@@ -191,3 +114,83 @@ export default function WaterScreen(){
     </View>
   );
         };
+
+        const styles = StyleSheet.create({
+            container: {
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingBottom: 50,
+              backgroundColor: '#D4FAFA',
+            },
+            imageContainer: {
+              width: 350, 
+              height: 350, 
+              overflow: 'hidden',
+            },
+            image: {
+              width: '100%',
+              height: '100%',
+              alignItems: 'center',
+            },
+            plantContainer1: {
+              width: 320, 
+              height: 320, 
+              overflow: 'hidden',
+              top: 140,
+            },
+            plantContainer2: {
+              width: 420, 
+              height: 420, 
+              overflow: 'hidden',
+              bottom: -40,
+              right: -11,
+            },
+            plantContainer3: {
+              width: 470, 
+              height: 480, 
+              overflow: 'hidden',
+              bottom: -24,
+            },
+            cupContainer: {
+              position: 'absolute',
+              bottom: 50,
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              alignItems: 'flex-end',
+              width: '100%',
+            },
+            cupImage: {
+              width: 50,
+              height: 50,
+            },
+            waterConsumedContainer: {
+              position: 'absolute',
+              bottom: 10,
+              alignItems: 'center',
+            },
+            waterConsumedText: {
+              fontSize: 18,
+              fontWeight: 'bold',
+              color: 'black',
+              textAlign: 'center',
+            },
+            congratulationsContainer: {
+                position: 'absolute',
+                top: 30,
+                alignItems: 'center',
+              },
+              congratulationsText: {
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: 'black',
+                textAlign: 'center',
+                marginBottom: 10,
+              },
+              congratulationsSubtext: {
+                fontSize: 18,
+                fontWeight: 'bold',
+                color: 'black',
+                textAlign: 'center',
+              },    
+        });

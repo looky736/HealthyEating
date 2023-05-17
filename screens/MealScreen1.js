@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-
-const API_KEY = 'd1be1f1a5bfd4860b4872daded3101b5';
+import {database} from '../firebase';
 
 export default function MealViewer({ route }) {
   const { id } = route.params;
   const [mealDetails, setMealDetails] = useState(null);
 
   useEffect(() => {
-    fetch(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${API_KEY}`)
-      .then(response => response.json())
-      .then(data => setMealDetails(data))
-      .catch(error => console.log(error));
+    database.ref('/meals/' + id).once('value', (snapshot) => {
+      if (snapshot.val()) {
+        setMealDetails(snapshot.val())
+      }
+    });
   }, [id]);
 
   if (!mealDetails) {
@@ -46,11 +46,10 @@ export default function MealViewer({ route }) {
             </View>
           </View>
         ))}
-        <Text style={styles.subtitle}>Nutrition:</Text>
-        <Text>{`Calories: ${nutrition.nutrients.find(n => n.name === 'Calories').amount} kcal`}</Text>
-        <Text>{`Fat: ${nutrition.nutrients.find(n => n.name === 'Fat').amount} g`}</Text>
-        <Text>{`Carbs: ${nutrition.nutrients.find(n => n.name === 'Carbohydrates').amount} g`}</Text>
-        <Text>{`Protein: ${nutrition.nutrients.find(n => n.name === 'Protein').amount} g`}</Text>
+        <Text style={styles.subtitle}>Nutrition (per serving):</Text>
+        {nutrition.nutrients.map((n, i) => (
+                <Text key={i}>{`${n.name}: ${n.amount} ${n.unit} (${n.percentOfDailyNeeds}% of daily intake)`}</Text>
+              ))}
       </View>
     </ScrollView>
   );
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
   },
   stepsContainer: {
     paddingLeft: 20,
-    marginTop: -30,
-    left: -14,
+    marginTop: -40,
+    left: -20,
   },
 });

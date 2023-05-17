@@ -7,7 +7,6 @@ const videoIds = ['pexOIlhT0v0', 'XMcab1MFaLc', '2a50j2Dq57g'];
 
 const TipsScreen = () => {
   const [activeTab, setActiveTab] = useState('videos');
-  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeTabButton: {
-    borderBottomWidth: 2,
+    borderBottomWidth: 5,
     borderBottomColor: 'black',
   },
   tabButtonText: {

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
-const API_KEY = 'd1be1f1a5bfd4860b4872daded3101b5';
+import {database} from '../firebase';
 
 const filterToMealIds = {
   'Random': [123,124, 646651,652417, 632812, 101],
@@ -20,16 +19,17 @@ export default function MealScreen() {
   const leftArrow = require('../Leftarrow.png');
   const rightArrow = require('../Rightarrow.png');
 
-  useEffect(() => {
-    const mealIds = filterToMealIds[filterOptions[filterIndex]];
-    const fetchMealPromises = mealIds.map(id => {
-      return fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`)
-        .then(response => response.json());
+useEffect(() => {
+  const mealIds = filterToMealIds[filterOptions[filterIndex]];
+    setMeals([]);
+    mealIds.map(id => {
+      database.ref('/meals/' + id).once('value', (snapshot) => {
+        if (snapshot.val()) {
+          setMeals(meals => [...meals, snapshot.val()])
+        }
+      });
     });
-    Promise.all(fetchMealPromises)
-      .then(data => setMeals(data))
-      .catch(error => console.log(error));
-  }, [filterIndex]);
+}, [filterIndex]);
 
   const handleMealClick = (mealId) => {
     navigation.navigate('Meal Viewer', { id: mealId });
@@ -90,12 +90,13 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   mealImage: {
-    width: 280,
+    width: 300,
     height: 180,
     right: 0,
     borderWidth: 2,
     borderColor: 'black',
-  },  
+    borderRadius: 8,
+  },
   filter: {
     alignSelf: 'center',
     backgroundColor: '#F18A8A',
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000000',
     justifyContent: 'center',
-    right: -15,
+    right: -30,
     bottom: 18,
   },
   scrollContainer: {

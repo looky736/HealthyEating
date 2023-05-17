@@ -1,84 +1,45 @@
-import { useNavigation } from '@react-navigation/core'
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useNavigation } from '@react-navigation/core';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 
 const InfoScreen = () => {
-  const [calories, setCalories] = useState(0);
-  const maxCalories = 2300;
-
-  useEffect(() => {
-    if (calories < maxCalories) {
-      const intervalId = setInterval(() => {
-        setCalories(c => c + 10);
-      }, 100);
-      return () => clearInterval(intervalId);
-    }
-  }, [calories]);
-
-  const progress = calories / maxCalories;
-  const deg = 360 * progress;
-
   return (
     <View style={styles.container}>
-      <View style={styles.progressContainer}>
-        <View style={[styles.progress, { transform: [{ rotateZ: `${deg}deg` }] }]} />
-        <Text style={styles.progressText}>{calories} / {maxCalories} Calories</Text>
-      </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Add Calories</Text>
-      </TouchableOpacity>
+      <Image source={require('../Logo.png')} style={styles.logo} />
+      <Text style={styles.text}>
+        Healthy Habits was founded in May 2023 with a simple and relentless goal of providing a platform so that people can become healthier by changing small habits in your lifestyle.{'\n\n'}
+        This app can allow you to do many things. Take a look at the different types of healthy meals we display for cooking. Find out the nutritional info of a meal and its ingredients.{'\n\n'}
+        Track your calories and remind yourself of how many calories you have left to eat. You can even set your personal daily goal!{'\n\n'}
+        Use our water tracker to make sure you get your daily water intake, and be sure to look after your plant!{'\n\n'}
+        View our tips and tricks on what you can do to become a healthier and happier person and find out your BMI while you're at it!{'\n\n'}
+        I hope you have fun using Healthy Habits!
+      </Text>
     </View>
-  )
-}
+  );
+};
 
-export default InfoScreen
+export default InfoScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#D4FAFA',
   },
-  progressContainer: {
-    position: 'relative',
-    width: 150,
+  logo: {
+    width: 250,
     height: 150,
-    borderRadius: 75,
-    borderWidth: 3,
-    borderColor: '#0782F9',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 50,
+    resizeMode: 'contain',
+    marginTop: 10,
+    marginBottom: 0,
   },
-  progress: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: 144,
-    height: 144,
-    borderRadius: 72,
-    borderWidth: 3,
-    borderColor: '#00bcd4',
-    borderLeftColor: '#0782F9',
-    borderBottomColor: '#0782F9',
-    transform: [{ rotateZ: '0deg' }],
-  },
-  progressText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+  text: {
     textAlign: 'center',
-  },
-  button: {
-    backgroundColor: '#0782F9',
-    width: '60%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight: '400',
+    marginHorizontal: 10,
+    lineHeight: 20,
+    fontWeight: 'bold',
   },
 });

@@ -16,22 +16,23 @@ import MealScreen1 from './screens/MealScreen1';
 
 const Stack = createNativeStackNavigator();
 
-
-export default function App() {
+function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} /> 
         <Stack.Screen options={{ headerShown: true }} name="Account" component={AccountScreen} /> 
-        <Stack.Screen options={{ headerShown: true }} name="Info" component={InfoScreen} />
-        <Stack.Screen options={{ headerShown: true }} name="Calorie" component={CalScreen} />
-        <Stack.Screen options={{ headerShown: true }} name="Water" component={WaterScreen} />
-        <Stack.Screen options={{ headerShown: true }} name="Tips" component={TipsScreen} />
-        <Stack.Screen options={{ headerShown: true }} name="Meal" component={MealScreen} />
-        <Stack.Screen options={{ headerShown: true }} name="BMI" component={BmiScreen} />
+        <Stack.Screen options={{ headerShown: true }} name="About Healthy Habits" component={InfoScreen} />
+        <Stack.Screen options={{ headerShown: true }} name="Calorie Tracker" component={CalScreen} />
+        <Stack.Screen options={{ headerShown: true }} name="Water Tracker" component={WaterScreen} />
+        <Stack.Screen options={{ headerShown: true }} name="Tips & Tricks" component={TipsScreen} />
+        <Stack.Screen options={{ headerShown: true }} name="View Meals" component={MealScreen} />
+        <Stack.Screen options={{ headerShown: true }} name="BMI Calculator" component={BmiScreen} />
         <Stack.Screen options={{ headerShown: true }} name="Meal Viewer" component={MealScreen1} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
+
+export default App;

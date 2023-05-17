@@ -32,10 +32,21 @@ const AccountScreen = () => {
       .catch(error => alert(error.message))
   }
 
+  const handleDelete = () => {
+    database.ref('users/' + auth.currentUser.uid).remove();
+    auth.currentUser.delete().then(() => {
+      navigation.replace("Login")
+    }
+    ).catch((error) => {
+      alert("Sign out and sign in again to delete your account.");
+    }
+    );
+  }
+
   database.ref('users/' + auth.currentUser.uid + '/' + getDate()).once('value', (snapshot) => {
     if (snapshot.val()) {
-      setWaterConsumed(snapshot.val().water);
-      setCalories(snapshot.val().calories);
+      setWaterConsumed(snapshot.val().water ?? 0);
+      setCalories(snapshot.val().calories ?? 0);
     }
   });
 
@@ -70,8 +81,6 @@ const AccountScreen = () => {
   return (
     <View style={styles.container}>
       <Image source={require('../Logo.png')} style={styles.logo} />
-      <Text style={[styles.tipHeading, {textAlign: 'left'}]}><Text style={{fontWeight: 'bold'}}>Random tip:</Text></Text>
-      <Text style={styles.tip}>{tip}</Text>
       <View style={styles.emailContainer}>
         <Text style={styles.heading}>My Account</Text>
         <Text style={styles.label}>Email: </Text>
@@ -86,6 +95,14 @@ const AccountScreen = () => {
       >
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
+      <Text style={[styles.tipHeading, {textAlign: 'left'}]}><Text style={{fontWeight: 'bold'}}>Random tip:</Text></Text>
+      <Text style={styles.tip}>{tip}</Text>
+      <TouchableOpacity
+        onPress={handleDelete}
+        style={styles.deleteButton}
+      >
+        <Text style={styles.deleteText}>Delete Account</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -98,17 +115,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#D4FAFA',
   },
   logo: {
-    position: 'absolute',
     width: 250,
     height: 150,
     resizeMode: 'contain',
     alignSelf: 'center',
-    top: 0,
   },
   emailContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 20,
+    margin: 10,
   },
   emailText: {
     fontSize: 18,
@@ -124,19 +139,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   tipHeading: {
-    top: 0,
     fontSize: 15,
   },
   tip: {
     fontSize: 12,
     textAlign: 'center',
-    marginBottom: 20,
-    top: 0,
+    margin: 10,
   },
   heading:{
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: 'bold',
-    bottom: -10,
   },
   button: {
     backgroundColor: '#F18A8A',
@@ -144,8 +156,24 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 50,
+    margin: 20,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: '#000000',
   },
+  deleteButton: {
+    backgroundColor: '#B90E0A',
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: '#000000',
+  },
+  deleteText: {
+    color: 'white',
+    fontWeight: '700',
+  },  
   buttonText: {
     color: 'black',
     fontWeight: '700',

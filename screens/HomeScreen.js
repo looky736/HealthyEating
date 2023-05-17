@@ -12,22 +12,22 @@ export default function HomeScreen() {
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Account')}>
         <Image source={require('../UserAvatar.png')} style={styles.UserImage}/>
       </TouchableWithoutFeedback>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Calorie')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Calorie Tracker')}>
         <Text style={styles.buttonText}>Calorie Tracker</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('BMI')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('BMI Calculator')}>
         <Text style={styles.buttonText}>BMI Calculator </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Water')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Water Tracker')}>
         <Text style={styles.buttonText}>Water Tracker</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Meal')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('View Meals')}>
         <Text style={styles.buttonText}>Meal Viewer</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tips')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tips & Tricks')}>
         <Text style={styles.buttonText}>Tips and Tricks</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.infoButton} onPress={() => navigation.navigate('Info')}>
+      <TouchableOpacity style={styles.infoButton} onPress={() => navigation.navigate('About Healthy Habits')}>
         <Text style={styles.infoButtonText}>i</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     height: 70,
     resizeMode: 'contain',
     position: 'absolute',
-    top: 20,
-    right: -8,
+    top: 30,
+    right: -10,
   },
 });

@@ -32,7 +32,38 @@ const LoginScreen = () => {
           }
         });
       })
-      .catch(error => alert(error.message))
+      .catch(error => handleError(error))
+  }
+
+  const handleError = (error) => {
+    switch (error.code) {
+      case "auth/invalid-email":
+        alert("Invalid email address.");
+        break;
+
+      case "auth/email-already-in-use":
+        alert("Email address already in use.");
+        break;
+
+      case "auth/missing-password":
+        alert("Enter a password.");
+        break;
+
+      case "auth/wrong-password":
+        alert("Incorrect password.");
+        break;
+
+      case "auth/weak-password":
+        alert("Password must be at least 6 characters.");
+        break;
+      
+      case "auth/user-not-found":
+        alert("Email address not recognized.");
+    
+      default:
+        alert(error.message);
+        break;
+    }
   }
 
   const handleLogin = () => {
@@ -42,7 +73,7 @@ const LoginScreen = () => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
       })
-      .catch(error => alert(error.message));
+      .catch(error => handleError(error))
   }
 
   return (
@@ -154,12 +185,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'black',
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: 'bold',
   },
   buttonOutlineText: {
     color: 'black',
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 22,
   },
 })
