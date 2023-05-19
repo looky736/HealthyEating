@@ -1,8 +1,10 @@
-import { useNavigation } from '@react-navigation/core'
-import React, { useState, useEffect, useRef } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, Image, Animated } from 'react-native'
+// Import necessary dependencies and modules
+import { useNavigation } from '@react-navigation/core';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image, Animated } from 'react-native';
 import { database, auth, getDate } from '../firebase';
 
+// Define an array of tips
 const tips = [
   "Limiting consumption of processed and packaged foods can help reduce intake of unhealthy additives, preservatives, and excess sodium",
   "Consuming lean protein sources, such as chicken, fish, and legumes, can help build and repair tissues in the body.",
@@ -16,68 +18,74 @@ const tips = [
   "Eating slowly and mindfully can help improve digestion, increase satiety, and prevent overeating.",
 ];
 
+// Define the AccountScreen component
 const AccountScreen = () => {
-  const navigation = useNavigation()
-  const [water, setWaterConsumed] = useState(0);
-  const [calories, setCalories] = useState(0);
-  const [tip, setTip] = useState("Healthy fats, such as those found in nuts, seeds, and avocados, can help reduce inflammation and improve heart health.");
-  const [fadeAnim, setFadeAnim] = useState(new Animated.Value(0)); // initialize opacity to 0
+  const navigation = useNavigation(); // Obtaining navigation object
+  const [water, setWaterConsumed] = useState(0); // Initialise water consumed state to 0
+  const [calories, setCalories] = useState(0); // Initialise calories state to 0
+  const [tip, setTip] = useState("Healthy fats, such as those found in nuts, seeds, and avocados, can help reduce inflammation and improve heart health."); // Initialise tip state with a default tip
+  const [fadeAnim, setFadeAnim] = useState(new Animated.Value(0)); // Initialise opacity animation value to 0
 
   const handleSignOut = () => {
+    // Handle the sign out action
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Login")
+        navigation.replace("Login"); // Redirect user to the login screen
       })
-      .catch(error => alert(error.message))
-  }
+      .catch(error => alert(error.message)); // Display an alert if there's an error
+  };
 
   const handleDelete = () => {
-    database.ref('users/' + auth.currentUser.uid).remove();
+    // Handle the user account deletion action
+    database.ref('users/' + auth.currentUser.uid).remove(); // Remove the user's data from the database
     auth.currentUser.delete().then(() => {
-      navigation.replace("Login")
-    }
-    ).catch((error) => {
-      alert("Sign out and sign in again to delete your account.");
-    }
-    );
-  }
+      navigation.replace("Login"); // Redirect to the login screen
+    }).catch((error) => {
+      alert("Sign out and sign in again to delete your account."); // Display an alert if there's an error. Maybe get rid of this. 
+    });
+  };
 
+  // Retrieve daily stats from the database
   database.ref('users/' + auth.currentUser.uid + '/' + getDate()).once('value', (snapshot) => {
     if (snapshot.val()) {
-      setWaterConsumed(snapshot.val().water ?? 0);
-      setCalories(snapshot.val().calories ?? 0);
+      setWaterConsumed(snapshot.val().water ?? 0); // Set the water consumed state with the retrieved value, or 0 if not available
+      setCalories(snapshot.val().calories ?? 0); // Set the calories state with the retrieved value, or 0 if not available
     }
   });
 
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
+ // Define the fadeIn function for the opacity animation
+const fadeIn = () => {
+  Animated.timing(fadeAnim, {
+    toValue: 1,
+    duration: 1000,
+    useNativeDriver: true,
+  }).start();
+};
 
-  const fadeOut = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
+// Define the fadeOut function for the opacity animation
+const fadeOut = () => {
+  Animated.timing(fadeAnim, {
+    toValue: 0,
+    duration: 1000,
+    useNativeDriver: true,
+  }).start();
+};
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * tips.length);
-      fadeOut(); // fade out the current tip
-      setTimeout(() => {
-        setTip(tips[randomIndex]);
-        fadeIn(); // fade in the new tip
-      }, 1000);
-    }, 4500);
-    return () => clearInterval(intervalId);
-  }, []);
+// Set up the interval for displaying random tips
+useEffect(() => {
+  const intervalId = setInterval(() => {
+    const randomIndex = Math.floor(Math.random() * tips.length);
+    fadeOut(); // Fade out the current tip
+    setTimeout(() => {
+      setTip(tips[randomIndex]); // Set a new random tip
+      fadeIn(); // Fade in the new tip
+    }, 1000);
+  }, 4500);
+  return () => clearInterval(intervalId); // Clear the interval when the component unmounts
+}, []);
 
+// Render the Account screen for user .
   return (
     <View style={styles.container}>
       <Image source={require('../Logo.png')} style={styles.logo} />

@@ -3,26 +3,37 @@ import React, { useState } from 'react';
 import { StyleSheet,Image ,Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
+// Array of video IDs
 const videoIds = ['pexOIlhT0v0', 'XMcab1MFaLc', '2a50j2Dq57g'];
 
 const TipsScreen = () => {
+  // State for active tab
   const [activeTab, setActiveTab] = useState('videos');
 
   return (
+    // Container View
     <View style={styles.container}>
+      {/* Tab bar */}
       <View style={styles.tabBar}>
+        {/* Videos tab */}
         <TouchableOpacity style={[styles.tabButton, activeTab === 'videos' && styles.activeTabButton]} onPress={() => setActiveTab('videos')}>
           <Text style={[styles.tabButtonText, activeTab === 'videos' && styles.activeTabButtonText]}>Videos</Text>
         </TouchableOpacity>
+        {/* Reading tab */}
         <TouchableOpacity style={[styles.tabButton, activeTab === 'Reading' && styles.activeTabButton]} onPress={() => setActiveTab('Reading')}>
           <Text style={[styles.tabButtonText, activeTab === 'Reading' && styles.activeTabButtonText]}>Reading</Text>
         </TouchableOpacity>
       </View>
+      
+      {/* Render content based on the active tab */}
       {activeTab === 'videos' ? (
+        // Videos tab content
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
           <View style={styles.content}>
+            {/* Display each video */}
             {videoIds.map((id) => (
               <View style={styles.videoContainer} key={id}>
+                {/* Display YouTube video player */}
                 <YoutubePlayer
                   height={300}
                   play={false}
@@ -33,41 +44,48 @@ const TipsScreen = () => {
           </View>
         </ScrollView>
       ) : (
-
+        // Or else display reading tab content
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-  <View style={styles.textContainer}>
-    <Text style={[styles.title]}>Quick Tips</Text>
-    <Text style={[styles.text1]}>- Getting your 5 A Day is easier than it sounds!
-      Why not chop a banana over your breakfast cereal, or swap your usual mid-morning snack for a piece of fresh fruit? 
-      A portion of fresh, canned or frozen fruit and vegetables is 80g. A portion of dried fruit (which should be kept to mealtimes) is 30g.</Text>
-    <View style={styles.imageContainer}>
-    <Image source={require('../Strawberry.png')} style={styles.image} />
-    </View>
-    <Text style={[styles.text2]}>- Fish is a good source of protein and contains many vitamins and minerals. 
-      Aim to eat at least 2 portions of fish a week, including at least 1 portion of oily fish. 
-      Oily fish are high in omega-3 fats, which may help prevent heart disease!</Text>
-    <View style={styles.imageContainer}>
-    <Image source={require('../Fish.png')} style={styles.image1} />
-    </View>
-    <Text style={[styles.text3]}>- Try to include at least 1 starchy food with each main meal. 
-      Some people think starchy foods are fattening, but gram for gram the carbohydrate they contain provides fewer than half the calories of fat.          </Text>
-      <View style={styles.imageContainer}>
-    <Image source={require('../Bread.png')} style={styles.image2} />
-    </View>
-    <Text style={[styles.text4]}>- On average, men should have no more than 30g of saturated fat a day. 
-      On average, women should have no more than 20g of saturated fat a day.</Text>
-    <Text style={[styles.text5]}>- Eating too much salt can raise your blood pressure. People with high blood 
-      pressure are more likely to develop heart disease or have a stroke. Adults and children aged 11 and over should eat no more than 6g of salt 
-      (about a teaspoonful) a day.</Text>
-      <View style={styles.imageContainer}>
-    <Image source={require('../Heart.gif')} style={styles.image3} />
-    </View>
-    <Text style={[styles.text6]}>- Eating too much salt can raise your blood pressure. People with high blood 
-      pressure are more likely to develop heart disease or have a stroke. Adults and children aged 11 and over should eat no more than 6g of salt 
-      (about a teaspoonful) a day.</Text>
-  </View>
-</ScrollView>
-
+          <View style={styles.textContainer}>
+            {/* Display title */}
+            <Text style={[styles.title]}>Quick Tips</Text>
+            {/* Display text for tip 1 */}
+            <Text style={[styles.text1]}>- Getting your 5 A Day is easier than it sounds!
+              Why not chop a banana over your breakfast cereal, or swap your usual mid-morning snack for a piece of fresh fruit? 
+              A portion of fresh, canned or frozen fruit and vegetables is 80g. A portion of dried fruit (which should be kept to mealtimes) is 30g.</Text>
+            {/* Display image for tip 1 */}
+            <View style={styles.imageContainer}>
+              <Image source={require('../Strawberry.png')} style={styles.image} />
+            </View>
+            {/* Display text for tip 2 */}
+            <Text style={[styles.text2]}>- Fish is a good source of protein and contains many vitamins and minerals. 
+              Aim to eat at least 2 portions of fish a week, including at least 1 portion of oily fish. 
+              Oily fish are high in omega-3 fats, which may help prevent heart disease!</Text>
+            {/* Display image for tip 2 */}
+            <View style={styles.imageContainer}>
+              <Image source={require('../Fish.png')} style={styles.image1} />
+            </View>
+            {/* Display text for tip 3 */}
+            <Text style={[styles.text3]}>- Try to include at least 1 starchy food with each main meal. 
+              Some people think starchy foods are fattening, but gram for gram the carbohydrate they contain provides fewer than half the calories of fat.</Text>
+            {/* Display image for tip 4 */}
+            <View style={styles.imageContainer}>
+              <Image source={require('../Bread.png')} style={styles.image2} />
+            </View>
+            <Text style={[styles.text4]}>- On average, men should have no more than 30g of saturated fat a day. 
+              On average, women should have no more than 20g of saturated fat a day.</Text>
+            <Text style={[styles.text5]}>- Eating too much salt can raise your blood pressure. People with high blood 
+              pressure are more likely to develop heart disease or have a stroke. Adults and children aged 11 and over should eat no more than 6g of salt 
+              (about a teaspoonful) a day.</Text>
+            <View style={styles.imageContainer}>
+              {/* Look at changing gif*/}
+            <Image source={require('../Heart.gif')} style={styles.image3} />
+            </View>
+            <Text style={[styles.text6]}>- Eating too much salt can raise your blood pressure. People with high blood 
+              pressure are more likely to develop heart disease or have a stroke. Adults and children aged 11 and over should eat no more than 6g of salt 
+              (about a teaspoonful) a day.</Text>
+          </View>
+          </ScrollView>
       )}
     </View>
   );
